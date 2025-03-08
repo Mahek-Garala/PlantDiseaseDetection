@@ -24,15 +24,22 @@ function App() {
 
 export default App;*/
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Auth from "./components/Auth";
+import HomePage from "./components/HomePage";
+import Profile from "./components/Profile";
 
 function App() {
     return (
-        <div>
-            <Auth />
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/profile" element={<Profile /> } />
+                <Route path="*" element={<Auth />} /> {/* Default to auth page */}
+            </Routes>
+        </Router>
     );
 }
 
 export default App;
-

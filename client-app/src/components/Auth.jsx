@@ -1,9 +1,12 @@
 ﻿import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Auth() {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
-        username: "",
+        username: "",  // Required for signup
         email: "",
         password: "",
         isLogin: true, // Toggle between login & signup
@@ -12,23 +15,34 @@ export default function Auth() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
+                        
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = form.isLogin ? "http://localhost:5000/api/auth/login" : "http://localhost:5000/api/auth/register";
+
+        const url = form.isLogin
+            ? "http://localhost:5015/api/auth/login"
+            : "http://localhost:5015/api/auth/register";
+
+       
+        const payload = form.isLogin
+            ? { email: form.email, password: form.password } // Login payload
+            : { username: form.username, email: form.email, password: form.password }; // Signup payload
+
+
+        console.log("Sending request to:", url);
+        console.log("Payload:", payload);
 
         try {
-            const response = await axios.post(url, {
-                username: form.isLogin ? undefined : form.username, // Send username only if signing up
-                email: form.email,
-                password: form.password,
+            const response = await axios.post(url, payload, {
+                headers: { "Content-Type": "application/json" }
             });
 
             alert(form.isLogin ? "Login successful!" : "Sign-up successful!");
             localStorage.setItem("token", response.data.token);
-            console.log(response.data);
+            navigate("/home");
+            console.log("Response:", response.data);
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error Response:", error.response);
             alert(error.response?.data?.message || "Something went wrong!");
         }
     };

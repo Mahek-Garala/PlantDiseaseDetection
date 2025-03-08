@@ -11,7 +11,15 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//cors
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy.WithOrigins("http://localhost:3001")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
 
 var configuration = builder.Configuration.GetSection("Cloudinary");
 // Configure Cloudinary
@@ -38,10 +46,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = true,
-            ValidateAudience = false,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"]
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
         };
     });
+
+//builder.Services.AddControllers().AddNewtonsoftJson();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -61,6 +73,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//app.UseCors("AllowFrontend");
 
 app.UseRouting();
 app.UseAuthentication();
