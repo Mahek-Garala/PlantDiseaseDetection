@@ -28,6 +28,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Auth from "./components/Auth";
 import HomePage from "./components/HomePage";
 import Profile from "./components/Profile";
+import RecommendationPage from "./components/RecommendationPage";
 
 function App() {
     return (
@@ -35,6 +36,7 @@ function App() {
             <Routes>
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/home" element={<HomePage />} />
+                <Route path="/recommendations" element={<RecommendationPage />} />
                 <Route path="/profile" element={<Profile /> } />
                 <Route path="*" element={<Auth />} /> {/* Default to auth page */}
             </Routes>

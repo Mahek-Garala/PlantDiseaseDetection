@@ -18,3 +18,4 @@ secrets.json
 
 # Ignore database migrations (optional)
 Migrations/
+node_modules/
