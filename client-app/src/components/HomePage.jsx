@@ -61,7 +61,7 @@ const HomePage = () => {
             <main className="flex-1 flex flex-col items-center py-10 px-4">
                 <input type="file" accept="image/*" onChange={handleImageChange} className="mt-2 p-2 border rounded" />
                 {preview && <img src={preview} alt="Preview" className="mt-4 w-64 h-64 object-cover border" />}
-                <button onClick={handleUpload} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded" disabled={loading}>
+                <button onClick={handleUpload} className="mt-4 bg-green-600 text-white px-4 py-2 rounded" disabled={loading}>
                     {loading ? "Processing..." : "Detect Disease"}
                 </button>
                 {disease && (

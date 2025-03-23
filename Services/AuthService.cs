@@ -67,25 +67,26 @@ namespace PlantDiseaseDetection.Services
         // ✅ Generate JWT Token
         private string GenerateToken(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"])); // Secret key
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // Hashing algorithm
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email), // Subject (User Email)
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique Token ID
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()), // Store User ID
-                new Claim(ClaimTypes.Name, user.UserName) // Store Username
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, user.Email), // Email as subject
+        new Claim(JwtRegisteredClaimNames.Email, user.Email), // Ensure email claim
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim("username", user.UserName)
+    };
 
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"], // Who issued the token
-                audience: _config["Jwt:Audience"], // Who can use the token
-                claims: claims, // Payload (user identity)
-                expires: DateTime.UtcNow.AddDays(1), // Expiry time
-                signingCredentials: creds // Signing the token
+                _config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
+                expires: DateTime.UtcNow.AddDays(1),
+                signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token); // Convert token to string
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

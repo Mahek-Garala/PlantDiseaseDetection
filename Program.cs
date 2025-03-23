@@ -89,7 +89,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-//app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
 app.UseRouting();
 app.UseAuthentication();

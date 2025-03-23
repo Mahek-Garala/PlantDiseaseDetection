@@ -14,6 +14,8 @@ namespace PlantDiseaseDetection.Data
         // public DbSet<Recommendation> Recommendations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           // base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>()
                 .HasMany(u => u.PlantImages)
                 .WithOne(p => p.User)
@@ -23,6 +25,11 @@ namespace PlantDiseaseDetection.Data
                 .HasMany(p => p.PlantImages)
                 .WithOne(r => r.Disease)
                 .HasForeignKey(r => r.ImageId);
+
+
+            modelBuilder.Entity<Disease>()
+                .HasIndex(d => new { d.PlantName, d.DiseaseName })
+                .IsUnique(); // Ensure unique combination of PlantName and DiseaseName
         }
     }
 }
