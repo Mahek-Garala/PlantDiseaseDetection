@@ -1,0 +1,21 @@
+.env
+
+# Ignore Visual Studio and build files
+.vs/*
+bin/
+obj/
+*.suo
+*.user
+*.userosscache
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore secrets and local config
+appsettings.Development.json
+secrets.json
+
+# Ignore database migrations (optional)
+Migrations/
+node_modules/
