@@ -1,4 +1,4 @@
-﻿# import google.generativeai as genai
+# import google.generativeai as genai
 # from fastapi import FastAPI, Query
 # from fastapi.middleware.cors import CORSMiddleware
 
